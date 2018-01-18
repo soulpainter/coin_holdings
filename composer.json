@@ -1,0 +1,17 @@
+{
+    "name": "coin_holdings",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Greg Roberts",
+            "email": "colonel32@coredumpstudios.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+      "guzzlehttp/guzzle": "~6.0",
+        "monolog/monolog": "^1.23",
+        "aws/aws-sdk-php": "^3.50"
+    }
+}
