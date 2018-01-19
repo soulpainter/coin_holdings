@@ -30,8 +30,10 @@ $allHoldings['jaxx'] = array(
 );
 
 #$cryptopiaHoldings = array('DBG','NOTE','GAME','NVC','UIS','XVG');
+#$allHoldings['cryptopia'] = $cryptopia->getCoinBalances();
 
 #print_r($allHoldings);
+#exit;
 
 $sums = array();
 foreach (array_keys($allHoldings['bittrex'] + $allHoldings['jaxx']) as $key) {

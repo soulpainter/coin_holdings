@@ -10,7 +10,21 @@
       }
   ],
   "minimum-stability": "dev",
+"repositories": [
+{
+    "type": "package",
+    "package": {
+        "name": "KittyCatTech/cryptopia-api-php",
+        "version": "1.0",
+        "source": {
+            "url": "https://github.com/KittyCatTech/cryptopia-api-php.git",
+            "type": "git",
+            "reference": "master"
+        }
+    }
+}],
   "require": {
+    "KittyCatTech/cryptopia-api-php": "1.0",
     "guzzlehttp/guzzle": "~6.0",
       "monolog/monolog": "^1.23",
       "aws/aws-sdk-php": "^3.50"

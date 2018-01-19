@@ -5,6 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use GuzzleHttp\Client;
 use CryptoClient\BittrexClient;
 use CryptoClient\BittrexHoldings;
+use CryptoClient\CryptopiaClient;
 
 $config = parse_ini_file('../config.ini');
 
@@ -25,6 +26,8 @@ $guzzleClient = new Client([
 ]);
 
 $bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], new Client());
+
+#$cryptopia = new CryptopiaClient($config['CRYPTOPIA_API_KEY'], $config['CRYPTOPIA_API_SECRET'], new Client());
 
 function getCoinList()
 {
