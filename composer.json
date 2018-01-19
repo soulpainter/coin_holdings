@@ -1,17 +1,24 @@
 {
-    "name": "coin_holdings",
-    "type": "project",
-    "license": "proprietary",
-    "authors": [
-        {
-            "name": "Greg Roberts",
-            "email": "colonel32@coredumpstudios.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-      "guzzlehttp/guzzle": "~6.0",
-        "monolog/monolog": "^1.23",
-        "aws/aws-sdk-php": "^3.50"
+  "description": "",
+  "name": "coredumpstudios/coin-holdings",
+  "type": "project",
+  "license": "proprietary",
+  "authors": [
+      {
+          "name": "Greg Roberts",
+          "email": "colonel32@coredumpstudios.com"
+      }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "guzzlehttp/guzzle": "~6.0",
+      "monolog/monolog": "^1.23",
+      "aws/aws-sdk-php": "^3.50"
+  },
+  "autoload": {
+    "psr-4": {
+      "CoinHoldings\\": "src/",
+      "CryptoClient\\": "src/CryptoClient/"
     }
+  }
 }
