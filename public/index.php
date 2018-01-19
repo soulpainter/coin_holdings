@@ -1,20 +1,19 @@
 <?php
-namespace CoinHolding;
 
 require_once('bootstrap.php');
 
 use GuzzleHttp\Client;
 
-$bittrexHoldings = array('BTC','DASH','DGB','DGC','EMC2',
-                         'EXP','FTP','MAID','MEC','NLG',
-                         'PTC','QRL','THC','XMR');
+$allHoldings = array();
 
-$coinbaseHoldings = array('BTC','ETH','BCH','LTC');
+$allHoldings['bittrex'] = $bittrex->getCoinBalances();
 
-$krakenHoldings = array('XRP','XMR','MLN','XLM','GNO','ETC',
-                        'EOS','DOGE','DASH','BCH','BTC','REP');
+#$coinbaseHoldings = array('BTC','ETH','BCH','LTC');
 
-$jaxxHoldings = array(
+#$krakenHoldings = array('XRP','XMR','MLN','XLM','GNO','ETC',
+#                        'EOS','DOGE','DASH','BCH','BTC','REP');
+
+$allHoldings['jaxx'] = array(
   'BTC' => 0.42241173,
   'BCH' => 1.21864032,
   'ETH' => 6.83051838,
@@ -30,10 +29,19 @@ $jaxxHoldings = array(
   'REP' => 22.2352 
 );
 
-$cryptopiaHoldings = array('DBG','NOTE','GAME','NVC','UIS','XVG');
+#$cryptopiaHoldings = array('DBG','NOTE','GAME','NVC','UIS','XVG');
+#$allHoldings['cryptopia'] = $cryptopia->getCoinBalances();
 
-$allHoldings = array_merge($bittrexHoldings, $coinbaseHoldings, $krakenHoldings, $jaxxHoldings, $cryptopiaHoldings);
-$allHoldings = $jaxxHoldings;
+#print_r($allHoldings);
+#exit;
+
+$sums = array();
+foreach (array_keys($allHoldings['bittrex'] + $allHoldings['jaxx']) as $key) {
+    $sums[$key] = (isset($allHoldings['bittrex'][$key]) ? $allHoldings['bittrex'][$key] : 0) + (isset($allHoldings['jaxx'][$key]) ? $allHoldings['jaxx'][$key] : 0);
+}
+$allHoldings = $sums;
+#print_r($sums);
+#exit;
 
 if(file_exists(TEST_COINLIST_FILE))
 {
