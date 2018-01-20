@@ -57,6 +57,7 @@ class KrakenClient
     {
       $res = $this->paywardKrakenAPI->QueryPrivate('Balance');
       $this->writeFileCache(self::HOLDING_FILE, json_encode($res));
+      return $res;
     }
     catch(Exception $e)
     {

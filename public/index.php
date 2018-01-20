@@ -6,7 +6,7 @@ $allHoldings = array();
 
 $allHoldings['bittrex'] = $bittrex->getCoinBalances();
 
-#$coinbaseHoldings = array('BTC','ETH','BCH','LTC');
+$allHoldings['coinbase'] = $coinbase->getCoinBalances();
 
 $allHoldings['kraken'] = $kraken->getCoinBalances();
 
@@ -29,8 +29,8 @@ $allHoldings['jaxx'] = array(
 #$cryptopiaHoldings = array('DBG','NOTE','GAME','NVC','UIS','XVG');
 #$allHoldings['cryptopia'] = $cryptopia->getCoinBalances();
 
-#print_r($allHoldings);
-#exit;
+print_r($allHoldings);
+exit;
 
 $sums = array();
 foreach($allHoldings as $exchange=>$coins)

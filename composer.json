@@ -39,6 +39,7 @@
   "require": {
     "KittyCatTech/cryptopia-api-php": "1.0",
     "krakenfx/kraken-api-client": "1.0",
+    "coinbase/coinbase": "~2.0",
     "guzzlehttp/guzzle": "~6.0",
     "monolog/monolog": "^1.23",
     "aws/aws-sdk-php": "^3.50"
