@@ -1,8 +1,8 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
 
 require __DIR__ . '/../vendor/autoload.php';
 require_once(__DIR__ . '/../vendor/KittyCatTech/cryptopia-api-php/cryptopiaAPI.php');
-#require_once(__DIR__ . '/../vendor/krakenfx/kraken-api-client/php/KrakenAPIClient.php');
 
 use GuzzleHttp\Client;
 use CryptoClient\BittrexClient;

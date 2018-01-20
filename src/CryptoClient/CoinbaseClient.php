@@ -1,8 +1,6 @@
 <?php
 namespace CryptoClient;
 
-error_reporting(E_ALL & ~E_NOTICE);
-
 use Coinbase\Wallet\Client;
 use Coinbase\Wallet\Configuration;
 
