@@ -8,8 +8,7 @@ $allHoldings['bittrex'] = $bittrex->getCoinBalances();
 
 #$coinbaseHoldings = array('BTC','ETH','BCH','LTC');
 
-#$krakenHoldings = array('XRP','XMR','MLN','XLM','GNO','ETC',
-#                        'EOS','DOGE','DASH','BCH','BTC','REP');
+$allHoldings['kraken'] = $kraken->getCoinBalances();
 
 $allHoldings['jaxx'] = array(
   'BTC' => 0.85213173,
@@ -34,12 +33,28 @@ $allHoldings['jaxx'] = array(
 #exit;
 
 $sums = array();
-foreach (array_keys($allHoldings['bittrex'] + $allHoldings['jaxx']) as $key) {
-    $sums[$key] = (isset($allHoldings['bittrex'][$key]) ? $allHoldings['bittrex'][$key] : 0) + (isset($allHoldings['jaxx'][$key]) ? $allHoldings['jaxx'][$key] : 0);
+foreach($allHoldings as $exchange=>$coins)
+{
+  $log->addDebug($exchange, $coins);
+  foreach($coins as $symbol=>$amount)
+  {
+    $log->addDebug($symbol, [$amount]);
+    if(isset($sums[$symbol]))
+    {
+      #$log->addDebug('FoundSymbolInSums', [$symbol, $amount]);
+      $sums[$symbol] += $amount;
+    }
+    else
+    {
+      #$log->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
+      $sums[$symbol] = $amount;
+    }
+  }
 }
-$allHoldings = $sums;
-#print_r($sums);
+$log->addDebug('FullSumOfCoins', $sums);
 #exit;
+
+$allHoldings = $sums;
 
 $json = $cryptoCompare->getCoinListJson();
 $coinList = json_decode($json, true);

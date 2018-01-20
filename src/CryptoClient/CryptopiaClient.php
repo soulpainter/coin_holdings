@@ -52,8 +52,8 @@ class CryptopiaClient
       ]
     ]);
 
-    var_dump($response->getBody());
-    exit;
+    #var_dump($response->getBody());
+    #exit;
 
     return json_decode($response->getBody(), true);
   }
