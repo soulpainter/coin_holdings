@@ -4,6 +4,7 @@ require_once('bootstrap.php');
 
 $allHoldings = array();
 
+// YOYO and IOTA are having issues
 $allHoldings['binance'] = $binance->getCoinBalances();
 
 $allHoldings['bittrex'] = $bittrex->getCoinBalances();
@@ -58,6 +59,8 @@ $json = $cryptoCompare->getCoinListJson();
 $coinList = json_decode($json, true);
 
 $priceString = implode(',', array_keys($allHoldings));
+#print $priceString;
+#exit;
 
 $priceJson = $cryptoCompare->getUSDPriceData($priceString);
 $usdPrices = json_decode($priceJson, true);
@@ -67,8 +70,11 @@ $totalHoldingsValueUSD = 0;
 #print_r($allHoldings);
 #exit;
 
+#print_r($coinList['Data']);
+
 foreach($coinList['Data'] as $symbol=>$coinData)
 {
+  #print "$symbol\n";
   if(array_key_exists($symbol, $allHoldings))
   {
     $usdValue = array_key_exists($symbol,$usdPrices) ? 1/$usdPrices[$symbol] : 0;
