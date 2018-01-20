@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b2e21cb84dc7ea4ab9f78c26f6bf315",
+    "content-hash": "478ff3d1edac9bdd815963345530d682",
     "packages": [
         {
             "name": "KittyCatTech/cryptopia-api-php",
@@ -18,16 +18,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.50.0",
+            "version": "3.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ed3308588d5d8d8f7a96dc93ff297988cefa7b4a"
+                "reference": "a932a76e110dc2c65c216de21a1aa65e151d21ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ed3308588d5d8d8f7a96dc93ff297988cefa7b4a",
-                "reference": "ed3308588d5d8d8f7a96dc93ff297988cefa7b4a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a932a76e110dc2c65c216de21a1aa65e151d21ef",
+                "reference": "a932a76e110dc2c65c216de21a1aa65e151d21ef",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-01-18T01:08:26+00:00"
+            "time": "2018-01-19T20:32:42+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -276,6 +276,16 @@
                 "url"
             ],
             "time": "2017-10-07 03:19:56"
+        },
+        {
+            "name": "krakenfx/kraken-api-client",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/krakenfx/kraken-api-client",
+                "reference": "master"
+            },
+            "type": "library"
         },
         {
             "name": "monolog/monolog",

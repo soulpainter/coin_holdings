@@ -1,11 +1,15 @@
 <?php
 
 require __DIR__ . '/../vendor/autoload.php';
+require_once(__DIR__ . '/../vendor/KittyCatTech/cryptopia-api-php/cryptopiaAPI.php');
+#require_once(__DIR__ . '/../vendor/krakenfx/kraken-api-client/php/KrakenAPIClient.php');
 
 use GuzzleHttp\Client;
 use CryptoClient\BittrexClient;
 use CryptoClient\BittrexHoldings;
 use CryptoClient\CryptopiaClient;
+use CryptoClient\CryptoCompareClient;
+use CryptoClient\KrakenClient;
 
 $config = parse_ini_file('../config.ini');
 
@@ -14,44 +18,31 @@ setlocale(LC_MONETARY, 'en_US');
 define('APP_NAME', 'CoinHolding');
 define('APP_LOG', '/Users/colonel32/Documents/coin_holdings/storage/logs/app.log');
 
-define('TEST_COINLIST_FILE', '/Users/colonel32/Documents/coin_holdings/storage/data/coinlist.json');
-define('TEST_USD_PRICE_FILE', '/Users/colonel32/Documents/coin_holdings/storage/data/USD_price.json');
-
 $log = new Monolog\Logger(APP_NAME);
-$log->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::DEBUG));
+$log->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::WARNING));
 
-$guzzleClient = new Client([
+$client = new Client([
   // You can set any number of default request options.
   'timeout'  => 2.0,
 ]);
 
-$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], new Client());
+$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], $client, $log);
 
-#$cryptopia = new CryptopiaClient($config['CRYPTOPIA_API_KEY'], $config['CRYPTOPIA_API_SECRET'], new Client());
+$kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG'], $log);
 
-function getCoinList()
+#$cryptopia = new CryptopiaClient($config['CRYPTOPIA_API_KEY'], $config['CRYPTOPIA_API_SECRET'], $client);
+/*
+try 
 {
-  $client = new Client([
-    // Base URI is used with relative requests
-    'base_uri' => 'https://www.cryptocompare.com/api/data/',
-    // You can set any number of default request options.
-    'timeout'  => 2.0,
-  ]);
-  $response = $client->request('GET', 'coinlist');
-  $json= $response->getBody();
-  return $json;
+   // create a new instance of the API Wrapper
+   $ct = New Cryptopia('XfkCWKPzBoE5x8pvEmP0SWVRQogZfvvENA84TIKC6CU=', '0524d9fae1a84364a3beb449d128749c');
+   print_r($ct->getBalance());
 }
-
-function getUSDPriceData($str)
+catch(Exception $e)
 {
-  $client = new Client([
-    // Base URI is used with relative requests
-    // 'base_uri' => 'https://min-api.cryptocompare.com/data/',
-    // You can set any number of default request options.
-    'timeout'  => 2.0,
-  ]);
-  $response = $client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=' . $str);
-  $json= $response->getBody();
+  var_dump($e);
 }
+*/
 
+$cryptoCompare = new CryptoCompareClient($client, $log);
 

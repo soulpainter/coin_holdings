@@ -2,25 +2,22 @@
 
 require_once('bootstrap.php');
 
-use GuzzleHttp\Client;
-
 $allHoldings = array();
 
 $allHoldings['bittrex'] = $bittrex->getCoinBalances();
 
 #$coinbaseHoldings = array('BTC','ETH','BCH','LTC');
 
-#$krakenHoldings = array('XRP','XMR','MLN','XLM','GNO','ETC',
-#                        'EOS','DOGE','DASH','BCH','BTC','REP');
+$allHoldings['kraken'] = $kraken->getCoinBalances();
 
 $allHoldings['jaxx'] = array(
-  'BTC' => 0.42241173,
+  'BTC' => 0.85213173,
   'BCH' => 1.21864032,
   'ETH' => 6.83051838,
   'DASH' => 5,
   'LTC' => 9.37812472,
   'ZEC' => 2.80552706,
-  'ETC' => 4.99,
+  'ETC' => 39.05237,
   'DOGE' => 166411.73,
   'EOS' => 155.26323,
   'GNO' => 2.01587,
@@ -36,35 +33,34 @@ $allHoldings['jaxx'] = array(
 #exit;
 
 $sums = array();
-foreach (array_keys($allHoldings['bittrex'] + $allHoldings['jaxx']) as $key) {
-    $sums[$key] = (isset($allHoldings['bittrex'][$key]) ? $allHoldings['bittrex'][$key] : 0) + (isset($allHoldings['jaxx'][$key]) ? $allHoldings['jaxx'][$key] : 0);
+foreach($allHoldings as $exchange=>$coins)
+{
+  $log->addDebug($exchange, $coins);
+  foreach($coins as $symbol=>$amount)
+  {
+    // $log->addDebug($symbol, [$amount]);
+    if(isset($sums[$symbol]))
+    {
+      // $log->addDebug('FoundSymbolInSums', [$symbol, $amount]);
+      $sums[$symbol] += $amount;
+    }
+    else
+    {
+      // $log->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
+      $sums[$symbol] = $amount;
+    }
+  }
 }
+$log->addDebug('FullSumOfCoins', $sums);
+
 $allHoldings = $sums;
-#print_r($sums);
-#exit;
 
-if(file_exists(TEST_COINLIST_FILE))
-{
-  $json = file_get_contents(TEST_COINLIST_FILE);
-}
-else 
-{
-  $json = getCoinList();
-}
-
+$json = $cryptoCompare->getCoinListJson();
 $coinList = json_decode($json, true);
 
 $priceString = implode(',', array_keys($allHoldings));
 
-if(file_exists(TEST_USD_PRICE_FILE))
-{
-  $priceJson = file_get_contents(TEST_USD_PRICE_FILE);
-}
-else
-{
-  $priceJson = getUSDPriceData($priceString);
-}
-
+$priceJson = $cryptoCompare->getUSDPriceData($priceString);
 $usdPrices = json_decode($priceJson, true);
 
 $totalHoldingsValueUSD = 0;
@@ -81,6 +77,8 @@ foreach($coinList['Data'] as $symbol=>$coinData)
     unset($allHoldings[$symbol]);
   }
 }
+
+print "Total Holdings Value in USD: $" . number_format($totalHoldingsValueUSD, 2) . "\n";
 $log->addDebug('TotalHoldingsValueUSD', ['total_holdings_usd_value' => number_format($totalHoldingsValueUSD, 2)]);
 
 if(count($allHoldings) > 0)
