@@ -32,23 +32,23 @@ $allHoldings['jaxx'] = array(
 $sums = array();
 foreach($allHoldings as $exchange=>$coins)
 {
-  $log->addDebug($exchange, $coins);
+  $logger->addDebug($exchange, $coins);
   foreach($coins as $symbol=>$amount)
   {
-    // $log->addDebug($symbol, [$amount]);
+    // $logger->addDebug($symbol, [$amount]);
     if(isset($sums[$symbol]))
     {
-      // $log->addDebug('FoundSymbolInSums', [$symbol, $amount]);
+      // $logger->addDebug('FoundSymbolInSums', [$symbol, $amount]);
       $sums[$symbol] += $amount;
     }
     else
     {
-      // $log->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
+      // $logger->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
       $sums[$symbol] = $amount;
     }
   }
 }
-$log->addDebug('FullSumOfCoins', $sums);
+$logger->addDebug('FullSumOfCoins', $sums);
 
 $allHoldings = $sums;
 
@@ -70,16 +70,16 @@ foreach($coinList['Data'] as $symbol=>$coinData)
     $totalValue = $usdValue * $allHoldings[$symbol];
     $totalHoldingsValueUSD += $totalValue;
     $totalValue = number_format($totalValue, 2);
-    $log->addDebug('Found', ['symbol' => $symbol, 'usd_value' => $usdValue, 'total_coins' => $allHoldings[$symbol], 'total_usd_value' => $totalValue]);
+    $logger->addDebug('Found', ['symbol' => $symbol, 'usd_value' => $usdValue, 'total_coins' => $allHoldings[$symbol], 'total_usd_value' => $totalValue]);
     unset($allHoldings[$symbol]);
   }
 }
 
 print "Total Holdings Value in USD: $" . number_format($totalHoldingsValueUSD, 2) . "\n";
-$log->addDebug('TotalHoldingsValueUSD', ['total_holdings_usd_value' => number_format($totalHoldingsValueUSD, 2)]);
+$logger->addDebug('TotalHoldingsValueUSD', ['total_holdings_usd_value' => number_format($totalHoldingsValueUSD, 2)]);
 
 if(count($allHoldings) > 0)
 {
-  $log->addWarning('NotFound:', $allHoldings);
+  $logger->addWarning('NotFound:', $allHoldings);
 }
 
