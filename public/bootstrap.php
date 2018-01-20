@@ -19,19 +19,19 @@ setlocale(LC_MONETARY, 'en_US');
 define('APP_NAME', 'CoinHolding');
 define('APP_LOG', '/Users/colonel32/Documents/coin_holdings/storage/logs/app.log');
 
-$log = new Monolog\Logger(APP_NAME);
-$log->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::WARNING));
+$logger = new Monolog\Logger(APP_NAME);
+$logger->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::WARNING));
 
 $client = new Client([
   // You can set any number of default request options.
   'timeout'  => 2.0,
 ]);
 
-$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], $client, $log);
+$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], $client, $logger);
 
-$kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG'], $log);
+$kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG'], $logger);
 
-$coinbase = new CoinbaseClient($config['COINBASE_API_KEY'], $config['COINBASE_API_SECRET'], $log);
+$coinbase = new CoinbaseClient($config['COINBASE_API_KEY'], $config['COINBASE_API_SECRET'], $logger);
 
 #$cryptopia = new CryptopiaClient($config['CRYPTOPIA_API_KEY'], $config['CRYPTOPIA_API_SECRET'], $client);
 /*
@@ -47,5 +47,5 @@ catch(Exception $e)
 }
 */
 
-$cryptoCompare = new CryptoCompareClient($client, $log);
+$cryptoCompare = new CryptoCompareClient($client, $logger);
 

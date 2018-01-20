@@ -12,14 +12,12 @@ class CryptoCompareClient
   const API_CALL_SECONDS = 3600; // cache results for an hour
 
   private $client;
-  private $log;
+  private $logger;
 
-  public function __construct(Client $client, Logger $log)
+  public function __construct(Client $client, Logger $logger)
   {
-    #$log->addDebug('StartingCryptoCompareClient', [], []);
-
     $this->client = $client;
-    $this->log = $log;
+    $this->logger = $logger;
   }
 
   public function getCoinListJson()

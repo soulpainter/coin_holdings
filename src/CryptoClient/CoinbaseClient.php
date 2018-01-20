@@ -72,8 +72,6 @@ class CoinbaseClient
     {
       $coinbaseHoldings[$value->getBalance()->getCurrency()] = $value->getBalance()->getAmount();
     }
-print_r($coinbaseHoldings);
-exit;
     return $coinbaseHoldings;
   }
 }
