@@ -29,9 +29,6 @@ $allHoldings['jaxx'] = array(
 #$cryptopiaHoldings = array('DBG','NOTE','GAME','NVC','UIS','XVG');
 #$allHoldings['cryptopia'] = $cryptopia->getCoinBalances();
 
-print_r($allHoldings);
-exit;
-
 $sums = array();
 foreach($allHoldings as $exchange=>$coins)
 {
