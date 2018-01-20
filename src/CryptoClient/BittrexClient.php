@@ -11,15 +11,15 @@ class BittrexClient
   private $apiKey;
   private $apiSecrect;
 
-  private $guzzleClient;
+  private $client;
 
   private $coinBalances = array();
 
-  public function __construct($apiKey, $apiSecret, Client $guzzleClient)
+  public function __construct($apiKey, $apiSecret, Client $client)
   {
     $this->apiKey = $apiKey;
     $this->apiSecret = $apiSecret;
-    $this->guzzleClient = $guzzleClient;
+    $this->client = $client;
   }
 
   private function generateURI($uri)
@@ -47,7 +47,7 @@ class BittrexClient
 
     $baseUri = 'https://bittrex.com/api/v1.1/account/getbalances';
 
-    $response = $this->guzzleClient->request('GET', $this->generateURI($baseUri), [
+    $response = $this->client->request('GET', $this->generateURI($baseUri), [
       'headers' => [
         'apisign' => $this->generateAuthSignature($baseUri),
         'Accept'     => 'application/json',

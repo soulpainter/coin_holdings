@@ -2,8 +2,6 @@
 
 require_once('bootstrap.php');
 
-use GuzzleHttp\Client;
-
 $allHoldings = array();
 
 $allHoldings['bittrex'] = $bittrex->getCoinBalances();
@@ -14,7 +12,7 @@ $allHoldings['bittrex'] = $bittrex->getCoinBalances();
 #                        'EOS','DOGE','DASH','BCH','BTC','REP');
 
 $allHoldings['jaxx'] = array(
-  'BTC' => 0.42241173,
+  'BTC' => 0.85213173,
   'BCH' => 1.21864032,
   'ETH' => 6.83051838,
   'DASH' => 5,
@@ -43,28 +41,12 @@ $allHoldings = $sums;
 #print_r($sums);
 #exit;
 
-if(file_exists(TEST_COINLIST_FILE))
-{
-  $json = file_get_contents(TEST_COINLIST_FILE);
-}
-else 
-{
-  $json = getCoinList();
-}
-
+$json = $cryptoCompare->getCoinListJson();
 $coinList = json_decode($json, true);
 
 $priceString = implode(',', array_keys($allHoldings));
 
-if(file_exists(TEST_USD_PRICE_FILE))
-{
-  $priceJson = file_get_contents(TEST_USD_PRICE_FILE);
-}
-else
-{
-  $priceJson = getUSDPriceData($priceString);
-}
-
+$priceJson = $cryptoCompare->getUSDPriceData($priceString);
 $usdPrices = json_decode($priceJson, true);
 
 $totalHoldingsValueUSD = 0;

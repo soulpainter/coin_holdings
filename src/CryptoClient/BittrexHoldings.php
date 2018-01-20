@@ -30,13 +30,3 @@ class BittrexHoldings
   }
 }
 
-#$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], new Client());
-#print_r($bittrex->getCoinBalances());
-
-
-
-
-
-
-
-

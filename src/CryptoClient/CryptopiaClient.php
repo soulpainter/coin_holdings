@@ -10,15 +10,15 @@ class CryptopiaClient
   private $apiKey;
   private $apiSecrect;
 
-  private $guzzleClient;
+  private $client;
 
   private $coinBalances = array();
 
-  public function __construct($apiKey, $apiSecret, Client $guzzleClient)
+  public function __construct($apiKey, $apiSecret, Client $client)
   {
     $this->apiKey = $apiKey;
     $this->apiSecret = $apiSecret;
-    $this->guzzleClient = $guzzleClient;
+    $this->client = $client;
   }
 
   private function generateAuthSignature($baseUri, $req = array())
@@ -45,14 +45,16 @@ class CryptopiaClient
 
     $baseUri = 'https://www.cryptopia.co.nz/api/GetBalance';
 
-    $response = $this->guzzleClient->request('POST', $baseUri, [
+    $response = $this->client->request('POST', $baseUri, [
       'headers' => [
         'Authorization' => $this->generateAuthSignature($baseUri),
         'Accept'     => 'application/json',
       ]
     ]);
-var_dump($response->getBody());
-exit;
+
+    var_dump($response->getBody());
+    exit;
+
     return json_decode($response->getBody(), true);
   }
 
