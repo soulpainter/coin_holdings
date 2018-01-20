@@ -6,9 +6,9 @@ The following exchanges are currently supported:
 1. Bittrex
 2. Kraken
 3. Jaxx Wallet
+4. Coinbase
 
 The following exchanges are being worked on:
 1. Cryptopia
-2. Coinbase
 
 Add your keys and secrets to a `config.ini`. These will be read by `public/bootstrap.php` and `public/index.php`
