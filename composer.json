@@ -42,7 +42,8 @@
     "coinbase/coinbase": "~2.0",
     "guzzlehttp/guzzle": "~6.0",
     "monolog/monolog": "^1.23",
-    "aws/aws-sdk-php": "^3.50"
+    "aws/aws-sdk-php": "^3.50",
+    "jaggedsoft/php-binance-api": "@dev"
   },
   "autoload": {
     "psr-4": {

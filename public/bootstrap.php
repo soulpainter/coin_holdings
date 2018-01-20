@@ -11,6 +11,7 @@ use CryptoClient\CryptopiaClient;
 use CryptoClient\CryptoCompareClient;
 use CryptoClient\KrakenClient;
 use CryptoClient\CoinbaseClient;
+use CryptoClient\BinanceClient;
 
 $config = parse_ini_file('../config.ini');
 
@@ -32,6 +33,8 @@ $bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SE
 $kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG'], $logger);
 
 $coinbase = new CoinbaseClient($config['COINBASE_API_KEY'], $config['COINBASE_API_SECRET'], $logger);
+
+$binance = new BinanceClient($config['BINANCE_API_KEY'], $config['BINANCE_API_SECRET'], $logger);
 
 #$cryptopia = new CryptopiaClient($config['CRYPTOPIA_API_KEY'], $config['CRYPTOPIA_API_SECRET'], $client);
 /*

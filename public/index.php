@@ -4,6 +4,8 @@ require_once('bootstrap.php');
 
 $allHoldings = array();
 
+$allHoldings['binance'] = $binance->getCoinBalances();
+
 $allHoldings['bittrex'] = $bittrex->getCoinBalances();
 
 $allHoldings['coinbase'] = $coinbase->getCoinBalances();
@@ -61,6 +63,9 @@ $priceJson = $cryptoCompare->getUSDPriceData($priceString);
 $usdPrices = json_decode($priceJson, true);
 
 $totalHoldingsValueUSD = 0;
+
+#print_r($allHoldings);
+#exit;
 
 foreach($coinList['Data'] as $symbol=>$coinData)
 {

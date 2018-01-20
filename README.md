@@ -7,6 +7,7 @@ The following exchanges are currently supported:
 2. Kraken
 3. Jaxx Wallet
 4. Coinbase
+5. Binance
 
 The following exchanges are being worked on:
 1. Cryptopia
