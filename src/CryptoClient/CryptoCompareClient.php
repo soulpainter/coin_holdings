@@ -29,12 +29,20 @@ class CryptoCompareClient
       return $json;
     }
 
-    $response = $this->client->request('GET', 'https://www.cryptocompare.com/api/data/coinlist');
-    $json= $response->getBody();
+    try
+    {
+      $response = $this->client->request('GET', 'https://www.cryptocompare.com/api/data/coinlist');
+      $json= $response->getBody();
 
-    $this->writeFileCache(self::COINLIST_FILE, $json);
+      $this->writeFileCache(self::COINLIST_FILE, $json);
 
-    return $json;
+      return $json;
+    }
+    catch(Exception $e)
+    {
+      $this->addError('CryptoCompareClientException:getCoinListJson', $e);
+    }
+
   }
 
   public function getUSDPriceData($str)
@@ -44,12 +52,19 @@ class CryptoCompareClient
       return $json;
     }
 
-    $response = $this->client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=' . $str);
-    $json= $response->getBody();
+    try
+    {
+      $response = $this->client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=' . $str);
+      $json= $response->getBody();
 
-    $this->writeFileCache(self::USD_PRICE_FILE, $json);
+      $this->writeFileCache(self::USD_PRICE_FILE, $json);
 
-    return $json;
+      return $json;
+    }
+    catch(Exception $e)
+    {
+      $this->addError('CryptoCompareClientException:getUSDPriceData', $e, array($str));
+    }
   }
 
   private function hasFileCache($cacheFile)

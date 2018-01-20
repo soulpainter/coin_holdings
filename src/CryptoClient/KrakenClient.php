@@ -13,6 +13,7 @@ class KrakenClient
   private $apiKey;
   private $apiSecrect;
   private $betaFlag = false;
+  private $logger;
 
   private $coinBalances = array();
 
@@ -31,11 +32,12 @@ class KrakenClient
     'XMLN' => 'MLN',
   );
 
-  public function __construct($apiKey, $apiSecret, $betaFlag)
+  public function __construct($apiKey, $apiSecret, $betaFlag, $logger)
   {
     $this->apiKey = $apiKey;
     $this->apiSecret = $apiSecret;
     $this->betaFlag = $betaFlag;
+    $this->logger = $logger;
 
     $url = $betaFlag ? 'https://api.beta.kraken.com' : 'https://api.kraken.com';
     $sslverify = $betaFlag ? false : true;
@@ -51,8 +53,15 @@ class KrakenClient
       return json_decode($json, true);
     }
 
-    $res = $this->paywardKrakenAPI->QueryPrivate('Balance');
-    $this->writeFileCache(self::HOLDING_FILE, json_encode($res));
+    try
+    {
+      $res = $this->paywardKrakenAPI->QueryPrivate('Balance');
+      $this->writeFileCache(self::HOLDING_FILE, json_encode($res));
+    }
+    catch(Exception $e)
+    {
+      $this->addError('KrakenClientException:getAccountBalances', $e);
+    }
   }
 
   private function hasFileCache($cacheFile)

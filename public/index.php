@@ -17,7 +17,7 @@ $allHoldings['jaxx'] = array(
   'DASH' => 5,
   'LTC' => 9.37812472,
   'ZEC' => 2.80552706,
-  'ETC' => 4.99,
+  'ETC' => 39.05237,
   'DOGE' => 166411.73,
   'EOS' => 155.26323,
   'GNO' => 2.01587,
@@ -38,21 +38,20 @@ foreach($allHoldings as $exchange=>$coins)
   $log->addDebug($exchange, $coins);
   foreach($coins as $symbol=>$amount)
   {
-    $log->addDebug($symbol, [$amount]);
+    // $log->addDebug($symbol, [$amount]);
     if(isset($sums[$symbol]))
     {
-      #$log->addDebug('FoundSymbolInSums', [$symbol, $amount]);
+      // $log->addDebug('FoundSymbolInSums', [$symbol, $amount]);
       $sums[$symbol] += $amount;
     }
     else
     {
-      #$log->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
+      // $log->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
       $sums[$symbol] = $amount;
     }
   }
 }
 $log->addDebug('FullSumOfCoins', $sums);
-#exit;
 
 $allHoldings = $sums;
 
@@ -78,6 +77,8 @@ foreach($coinList['Data'] as $symbol=>$coinData)
     unset($allHoldings[$symbol]);
   }
 }
+
+print "Total Holdings Value in USD: $" . number_format($totalHoldingsValueUSD, 2) . "\n";
 $log->addDebug('TotalHoldingsValueUSD', ['total_holdings_usd_value' => number_format($totalHoldingsValueUSD, 2)]);
 
 if(count($allHoldings) > 0)

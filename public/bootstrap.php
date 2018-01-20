@@ -19,16 +19,16 @@ define('APP_NAME', 'CoinHolding');
 define('APP_LOG', '/Users/colonel32/Documents/coin_holdings/storage/logs/app.log');
 
 $log = new Monolog\Logger(APP_NAME);
-$log->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::DEBUG));
+$log->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::WARNING));
 
 $client = new Client([
   // You can set any number of default request options.
   'timeout'  => 2.0,
 ]);
 
-$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], $client);
+$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], $client, $log);
 
-$kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG']);
+$kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG'], $log);
 
 #$cryptopia = new CryptopiaClient($config['CRYPTOPIA_API_KEY'], $config['CRYPTOPIA_API_SECRET'], $client);
 /*

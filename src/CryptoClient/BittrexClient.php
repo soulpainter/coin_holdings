@@ -3,6 +3,8 @@ namespace CryptoClient;
 
 use CryptoClient\BittrexHoldings;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ConnectException;
 
 class BittrexClient 
 {
@@ -12,14 +14,16 @@ class BittrexClient
   private $apiSecrect;
 
   private $client;
+  private $logger;
 
   private $coinBalances = array();
 
-  public function __construct($apiKey, $apiSecret, Client $client)
+  public function __construct($apiKey, $apiSecret, Client $client, $logger)
   {
     $this->apiKey = $apiKey;
     $this->apiSecret = $apiSecret;
     $this->client = $client;
+    $this->logger = $logger;
   }
 
   private function generateURI($uri)
@@ -47,12 +51,19 @@ class BittrexClient
 
     $baseUri = 'https://bittrex.com/api/v1.1/account/getbalances';
 
-    $response = $this->client->request('GET', $this->generateURI($baseUri), [
-      'headers' => [
-        'apisign' => $this->generateAuthSignature($baseUri),
-        'Accept'     => 'application/json',
-      ]
-    ]);
+    try
+    {
+      $response = $this->client->request('GET', $this->generateURI($baseUri), [
+        'headers' => [
+          'apisign' => $this->generateAuthSignature($baseUri),
+          'Accept'     => 'application/json',
+        ]
+      ]);
+    }
+    catch(Exception $e)
+    {
+      $this->addError('BittrexAPIException', $e);
+    }
 
     return json_decode($response->getBody(), true);
   }
