@@ -1,0 +1,7 @@
+BITTREX_API_KEY = "xxxxxxxxxx"
+BITTREX_API_SECRECT = "xxxxxxxxxx"
+CRYPTOPIA_API_KEY = "xxxxxxxxxx"
+CRYPTOPIA_API_SECRET = "xxxxxxxxxx"
+KRAKEN_API_KEY = "xxxxxxxxxx"
+KRAKEN_API_SECRET = "xxxxxxxxxx"
+KRAKEN_BETA_FLAG = true or false
