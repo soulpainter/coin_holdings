@@ -12,6 +12,7 @@ use CryptoClient\CryptoCompareClient;
 use CryptoClient\KrakenClient;
 use CryptoClient\CoinbaseClient;
 use CryptoClient\BinanceClient;
+use CryptoClient\CryptoCache;;
 
 $config = parse_ini_file('../config.ini');
 
@@ -21,20 +22,24 @@ define('APP_NAME', 'CoinHolding');
 define('APP_LOG', '/Users/colonel32/Documents/coin_holdings/storage/logs/app.log');
 
 $logger = new Monolog\Logger(APP_NAME);
-$logger->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::WARNING));
+$logger->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::DEBUG));
 
 $client = new Client([
   // You can set any number of default request options.
-  'timeout'  => 2.0,
+  'timeout'  => 3.0,
 ]);
 
-$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], $client, $logger);
+$bittrexCache = new CryptoCache($config['BITTREX_CACHE_FILE'], $config['BITTREX_CACHE_TTL'], $logger);
+$bittrex = new BittrexClient($config['BITTREX_API_KEY'], $config['BITTREX_API_SECRECT'], $client, $logger, $bittrexCache);
 
-$kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG'], $logger);
+$krakenCache = new CryptoCache($config['KRAKEN_CACHE_FILE'], $config['KRAKEN_CACHE_TTL'], $logger);
+$kraken = new KrakenClient($config['KRAKEN_API_KEY'], $config['KRAKEN_API_SECRET'], $config['KRAKEN_BETA_FLAG'], $logger, $krakenCache);
 
-$coinbase = new CoinbaseClient($config['COINBASE_API_KEY'], $config['COINBASE_API_SECRET'], $logger);
+$coinbaseCache = new CryptoCache($config['COINBASE_CACHE_FILE'], $config['COINBASE_CACHE_TTL'], $logger);
+$coinbase = new CoinbaseClient($config['COINBASE_API_KEY'], $config['COINBASE_API_SECRET'], $logger, $coinbaseCache);
 
-$binance = new BinanceClient($config['BINANCE_API_KEY'], $config['BINANCE_API_SECRET'], $logger);
+$binanceCache = new CryptoCache($config['BINANCE_CACHE_FILE'], $config['BINANCE_CACHE_TTL'], $logger);
+$binance = new BinanceClient($config['BINANCE_API_KEY'], $config['BINANCE_API_SECRET'], $logger, $binanceCache);
 
 #$cryptopia = new CryptopiaClient($config['CRYPTOPIA_API_KEY'], $config['CRYPTOPIA_API_SECRET'], $client);
 /*

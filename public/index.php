@@ -4,10 +4,11 @@ require_once('bootstrap.php');
 
 $allHoldings = array();
 
-// YOYO and IOTA are having issues
+//TODO: YOYO and IOTA are having issues
 $allHoldings['binance'] = $binance->getCoinBalances();
 
-$allHoldings['bittrex'] = $bittrex->getCoinBalances();
+//TODO: FIX - API CALL SEEMS TO BE FAILING NOW - WTF???
+#$allHoldings['bittrex'] = $bittrex->getCoinBalances();
 
 $allHoldings['coinbase'] = $coinbase->getCoinBalances();
 
@@ -38,15 +39,15 @@ foreach($allHoldings as $exchange=>$coins)
   $logger->addDebug($exchange, $coins);
   foreach($coins as $symbol=>$amount)
   {
-    // $logger->addDebug($symbol, [$amount]);
+    $logger->addDebug($symbol, [$amount]);
     if(isset($sums[$symbol]))
     {
-      // $logger->addDebug('FoundSymbolInSums', [$symbol, $amount]);
+      $logger->addDebug('FoundSymbolInSums', [$symbol, $amount]);
       $sums[$symbol] += $amount;
     }
     else
     {
-      // $logger->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
+      $logger->addDebug('NotFoundSymbolInSums', [$symbol, $amount]);
       $sums[$symbol] = $amount;
     }
   }
