@@ -38,51 +38,28 @@ $coinList = json_decode($json, true);
 
 # create an array of symbol => amount in all exchanges / wallets
 $coinHoldingMap = array();
-foreach($allHoldings as $exchange=>$coins)
-{
-  $logger->addDebug($exchange, $coins);
-  foreach($coins as $symbol=>$amount)
-  {
-    $logger->addDebug($symbol, [$amount]);
-    if(isset($coinHoldingMap[$symbol]))
-    {
-      $logger->addDebug('FoundSymbolInCoinHoldingMap', [$symbol, $amount]);
-      $coinHoldingMap[$symbol] += $amount;
-    }
-    else
-    {
-      $logger->addDebug('NotFoundSymbolInCoinHoldingMap', [$symbol, $amount]);
-      $coinHoldingMap[$symbol] = $amount;
-    }
-  }
-}
-$logger->addDebug('FullCoinHoldingMapOfCoins', $coinHoldingMap);
+
+// you can calculate total of all accounts with this coinHoldingMap
+#$cryptoMachine->createCoinHoldingMap($allHoldings);
+
+// or you can do a single exchange or wallet
+$cryptoMachine->createCoinHoldingMap(array($allHoldings['jaxx']));
+
+// now we have the map to do the calculations on
+$coinHoldingMap = $cryptoMachine->getCoinHoldingMap();
 
 $priceString = implode(',', array_keys($coinHoldingMap));
 $logger->addDebug('CryptoCompare:getUSDPriceData:priceString', [$priceString]);
 $priceJson = $cryptoCompare->getUSDPriceData($priceString);
 $usdPrices = json_decode($priceJson, true);
 
-$totalHoldingsValueUSD = 0;
+$totalHoldingInfo = $cryptoMachine->computeCoinTotals($coinList['Data'], $usdPrices);
 
-foreach($coinList['Data'] as $symbol=>$coinData)
+print "Total Holdings Value in USD: $" . number_format($totalHoldingInfo['totalHoldingsValueUSD'], 2) . "\n";
+$logger->addDebug('TotalHoldingsValueUSD', ['total_holdings_usd_value' => number_format($totalHoldingInfo['totalHoldingsValueUSD'], 2)]);
+
+if(count($totalHoldingInfo['coinHoldingMapTemp']) > 0)
 {
-  if(array_key_exists($symbol, $coinHoldingMap))
-  {
-    $usdValue = array_key_exists($symbol,$usdPrices) ? 1/$usdPrices[$symbol] : 0;
-    $totalValue = $usdValue * $coinHoldingMap[$symbol];
-    $totalHoldingsValueUSD += $totalValue;
-    $totalValue = number_format($totalValue, 2);
-    $logger->addDebug('Found', ['symbol' => $symbol, 'usd_value' => $usdValue, 'total_coins' => $coinHoldingMap[$symbol], 'total_usd_value' => $totalValue]);
-    unset($coinHoldingMap[$symbol]);
-  }
-}
-
-print "Total Holdings Value in USD: $" . number_format($totalHoldingsValueUSD, 2) . "\n";
-$logger->addDebug('TotalHoldingsValueUSD', ['total_holdings_usd_value' => number_format($totalHoldingsValueUSD, 2)]);
-
-if(count($coinHoldingMap) > 0)
-{
-  $logger->addWarning('NotFound:', $coinHoldingMap);
+  $logger->addWarning('NotFound:', $totalHoldingInfo['coinHoldingMapTemp']);
 }
 

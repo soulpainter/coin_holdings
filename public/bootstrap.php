@@ -12,7 +12,8 @@ use CryptoClient\CryptoCompareClient;
 use CryptoClient\KrakenClient;
 use CryptoClient\CoinbaseClient;
 use CryptoClient\BinanceClient;
-use CryptoClient\CryptoCache;;
+use CryptoClient\CryptoCache;
+use CryptoClient\CryptoMachine;
 
 $config = parse_ini_file('../config.ini');
 
@@ -23,6 +24,8 @@ define('APP_LOG', '/Users/colonel32/Documents/coin_holdings/storage/logs/app.log
 
 $logger = new Monolog\Logger(APP_NAME);
 $logger->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::DEBUG));
+
+$cryptoMachine = new CryptoMachine($logger);
 
 $client = new Client([
   // You can set any number of default request options.
