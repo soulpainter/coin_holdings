@@ -52,6 +52,6 @@
     }
   },
   "scripts": {
-    "post-update-cmd": [ "npm install" ]
+    "post-update-cmd": []
   }
 }
