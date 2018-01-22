@@ -1,0 +1,24 @@
+{
+  "name": "coin_holdings",
+  "version": "1.0.0",
+  "description": "Project that brings multiple Crypto excahanges and the Jaxx wallet under a single code base for determing total crypto coins owned and current values.",
+  "main": "index.js",
+  "dependencies": {
+    "vue": "^2.5.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soulpainter/coin_holdings.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soulpainter/coin_holdings/issues"
+  },
+  "homepage": "https://github.com/soulpainter/coin_holdings#readme"
+}

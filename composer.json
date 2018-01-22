@@ -50,5 +50,8 @@
       "CoinHoldings\\": "src/",
       "CryptoClient\\": "src/CryptoClient/"
     }
+  },
+  "scripts": {
+    "post-update-cmd": [ "npm install" ]
   }
 }

@@ -46,7 +46,7 @@ class BittrexClient
     $accountBalances = $this->cache->getCacheFile();
     if($accountBalances)
     {
-      return json_decode($accountBalances, true);
+      return $accountBalances;
     }
 
     $baseUri = 'https://bittrex.com/api/v1.1/account/getbalances';
@@ -60,8 +60,10 @@ class BittrexClient
         ]
       ]);
       $accountBalances = $response->getBody();
-      $this->cache->writeFileCache($accountBalances);
-      return json_decode($accountBalances, true);
+      $json = json_decode($accountBalances, true);
+      $this->cache->writeFileCache($json);
+      return $json;
+    
     }
     catch(Exception $e)
     {
