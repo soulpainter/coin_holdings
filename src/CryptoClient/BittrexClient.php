@@ -15,15 +15,17 @@ class BittrexClient
 
   private $client;
   private $logger;
+  private $cache;
 
   private $coinBalances = array();
 
-  public function __construct($apiKey, $apiSecret, Client $client, $logger)
+  public function __construct($apiKey, $apiSecret, Client $client, $logger, $cache)
   {
     $this->apiKey = $apiKey;
     $this->apiSecret = $apiSecret;
     $this->client = $client;
     $this->logger = $logger;
+    $this->cache = $cache;
   }
 
   private function generateURI($uri)
@@ -41,12 +43,10 @@ class BittrexClient
 
   private function getAccountBalances()
   {
-    $cacheFile = 'storage/data/bittrex_balances.json';
-
-    if(file_exists($cacheFile))
+    $accountBalances = $this->cache->getCacheFile();
+    if($accountBalances)
     {
-      $json = file_get_contents($cacheFile);
-      return json_decode($json, true);
+      return $accountBalances;
     }
 
     $baseUri = 'https://bittrex.com/api/v1.1/account/getbalances';
@@ -59,13 +59,16 @@ class BittrexClient
           'Accept'     => 'application/json',
         ]
       ]);
+      $accountBalances = $response->getBody();
+      $json = json_decode($accountBalances, true);
+      $this->cache->writeFileCache($json);
+      return $json;
+    
     }
     catch(Exception $e)
     {
       $this->addError('BittrexAPIException', $e);
     }
-
-    return json_decode($response->getBody(), true);
   }
 
   private function compactCoins($balances)

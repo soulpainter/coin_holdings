@@ -14,6 +14,7 @@ class KrakenClient
   private $apiSecrect;
   private $betaFlag = false;
   private $logger;
+  private $cache;
 
   private $coinBalances = array();
 
@@ -32,12 +33,13 @@ class KrakenClient
     'XMLN' => 'MLN',
   );
 
-  public function __construct($apiKey, $apiSecret, $betaFlag, $logger)
+  public function __construct($apiKey, $apiSecret, $betaFlag, $logger, $cache)
   {
     $this->apiKey = $apiKey;
     $this->apiSecret = $apiSecret;
     $this->betaFlag = $betaFlag;
     $this->logger = $logger;
+    $this->cache = $cache;
 
     $url = $betaFlag ? 'https://api.beta.kraken.com' : 'https://api.kraken.com';
     $sslverify = $betaFlag ? false : true;

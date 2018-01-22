@@ -14,14 +14,16 @@ class CoinbaseClient
   private $apiKey;
   private $apiSecrect;
   private $logger;
+  private $cache;
 
   private $coinBalances = array();
 
-  public function __construct($apiKey, $apiSecret, $logger)
+  public function __construct($apiKey, $apiSecret, $logger, $cache)
   {
     $this->apiKey = $apiKey;
     $this->apiSecret = $apiSecret;
     $this->logger = $logger;
+    $this->cache = $cache;
 
     $configuration = Configuration::apiKey($apiKey, $apiSecret);
     $this->coinbaseAPI = Client::create($configuration);
@@ -29,38 +31,21 @@ class CoinbaseClient
 
   private function getAccountBalances()
   {
-    if($contents = $this->hasFileCache(self::HOLDING_FILE))
+    if($accountBalances = $this->cache->getCacheFile())
     {
-      return unserialize($contents);
+      return $accountBalances;
     }
 
     try
     {
       $accounts = $this->coinbaseAPI->getAccounts();
-      $this->writeFileCache(self::HOLDING_FILE, serialize($accounts));
+      $this->cache->writeFileCache($accounts);
       return $accounts;
     }
     catch(Exception $e)
     {
       $this->addError('CoinbaseClientException:getAccountBalances', $e);
     }
-  }
-
-  private function hasFileCache($cacheFile)
-  {
-    if(file_exists($cacheFile))
-    {
-      if(time()-filemtime($cacheFile) < 1 * self::API_CALL_SECONDS)
-      {
-        $contents = file_get_contents($cacheFile);
-        return $contents;
-      }
-    }
-  }
-
-  private function writeFileCache($cacheFile, $contents)
-  {
-    file_put_contents($cacheFile, $contents);
   }
 
   public function getCoinBalances()
