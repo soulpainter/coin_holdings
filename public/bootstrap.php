@@ -20,11 +20,26 @@ $config = parse_ini_file('../config.ini');
 setlocale(LC_MONETARY, 'en_US');
 
 define('APP_NAME', 'CoinHolding');
-define('APP_LOG', '/Users/colonel32/Documents/coin_holdings/storage/logs/app.log');
+define('APP_LOG', __DIR__ . '/../storage/logs/app.log');
+
+$slimConfig = [
+    'settings' => [
+        'displayErrorDetails' => true,
+
+        'logger' => [
+            'name' => APP_NAME,
+            'level' => Monolog\Logger::DEBUG,
+            'path' => APP_LOG
+        ],
+    ],
+];
+$app = new \Slim\App($slimConfig);
+$container = $app->getContainer();
 
 $logger = new Monolog\Logger(APP_NAME);
 $logger->pushHandler(new Monolog\Handler\StreamHandler(APP_LOG, Monolog\Logger::DEBUG));
 
+$container['cryptoMachine'] = $cryptoMachine;
 $cryptoMachine = new CryptoMachine($logger);
 
 $client = new Client([

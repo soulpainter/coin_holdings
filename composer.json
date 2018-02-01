@@ -43,7 +43,8 @@
     "guzzlehttp/guzzle": "~6.0",
     "monolog/monolog": "^1.23",
     "aws/aws-sdk-php": "^3.50",
-    "jaggedsoft/php-binance-api": "@dev"
+    "jaggedsoft/php-binance-api": "@dev",
+    "slim/slim": "^3.9"
   },
   "autoload": {
     "psr-4": {
