@@ -14,10 +14,10 @@ $allHoldings['coinbase'] = $coinbase->getCoinBalances();
 $allHoldings['kraken'] = $kraken->getCoinBalances();
 
 $allHoldings['jaxx'] = array(
-  'BTC' => 0.99544173,
-  'BCH' => 1.21864032,
-  'ETH' => 6.83051838,
-  'DASH' => 8.53602,
+  'BTC' => 1.29249173,
+  'BCH' => 2.02066032,
+  'ETH' => 11.83051838, // include 5 ether from Mist
+  'DASH' => 8.93602, // include 0.4 dash from official wallet
   'LTC' => 9.37812472,
   'ZEC' => 2.80552706,
   'ETC' => 39.05237,
@@ -40,10 +40,10 @@ $coinList = json_decode($json, true);
 $coinHoldingMap = array();
 
 // you can calculate total of all accounts with this coinHoldingMap
-#$cryptoMachine->createCoinHoldingMap($allHoldings);
+$cryptoMachine->createCoinHoldingMap($allHoldings);
 
 // or you can do a single exchange or wallet
-$cryptoMachine->createCoinHoldingMap(array($allHoldings['jaxx']));
+#$cryptoMachine->createCoinHoldingMap(array($allHoldings['jaxx']));
 
 // now we have the map to do the calculations on
 $coinHoldingMap = $cryptoMachine->getCoinHoldingMap();
