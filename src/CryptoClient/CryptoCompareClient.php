@@ -20,6 +20,12 @@ class CryptoCompareClient
     $this->logger = $logger;
   }
 
+  public function getCoinListData()
+  {
+    $coinList = $this->getCoinListJson();
+    return $coinList['Data'];
+  }
+
   public function getCoinListJson()
   {
     if($json = $this->hasFileCache(self::COINLIST_FILE))

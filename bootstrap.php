@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
 
-require __DIR__ . '/../vendor/autoload.php';
-require_once(__DIR__ . '/../vendor/KittyCatTech/cryptopia-api-php/cryptopiaAPI.php');
+require __DIR__ . '/vendor/autoload.php';
+require_once(__DIR__ . '/vendor/KittyCatTech/cryptopia-api-php/cryptopiaAPI.php');
 
 use GuzzleHttp\Client;
 use CryptoClient\BittrexClient;
@@ -15,12 +15,12 @@ use CryptoClient\BinanceClient;
 use CryptoClient\CryptoCache;
 use CryptoClient\CryptoMachine;
 
-$config = parse_ini_file('../config.ini');
+$config = parse_ini_file('config.ini');
 
 setlocale(LC_MONETARY, 'en_US');
 
 define('APP_NAME', 'CoinHolding');
-define('APP_LOG', __DIR__ . '/../storage/logs/app.log');
+define('APP_LOG', __DIR__ . '/storage/logs/app.log');
 
 $slimConfig = [
     'settings' => [
